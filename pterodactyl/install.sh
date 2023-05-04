@@ -60,10 +60,12 @@ fi
 
 unzip /tmp/main.zip -d /tmp/main && rm /tmp/main.zip
 
+cd /tmp/main/docker-minecraft-server-${VERSION,,}
+
 cp pterodactyl/entrypoint.sh /entrypoint.sh
 chmod 775 /entrypoint.sh
 
-cd /tmp/main/docker-minecraft-server-$VERSION/scripts
+cd scripts
 
 sed -i 's/\/data/\/home\/container/g' start*
 
