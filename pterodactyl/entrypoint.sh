@@ -4,7 +4,7 @@ export TYPE=VANILLA
 export VERSION=LATEST 
 export EULA=""
 
-for ARGUMENT in "$@"
+for ARGUMENT in (${STARTUP})
 do
    KEY=$(echo $ARGUMENT | cut -f1 -d=)
 
@@ -14,7 +14,8 @@ do
    export "$KEY"="$VALUE"
 done
 
-echo ${TYPE}
 # UID=1000 GID=1000
 
-exec "${SCRIPTS:-/}start"
+echo "Starting from custom script"
+
+exec "start"
