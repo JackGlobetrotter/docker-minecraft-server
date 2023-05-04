@@ -1,7 +1,7 @@
 #! /bin/bash
 
-VERSION=2023.3.0
-GITHUB_PATH="https://github.com/itzg/docker-minecraft-server"
+VERSION=MASTER
+GITHUB_PATH="https://github.com/JackGlobetrotter/docker-minecraft-server"
 
 TARGET=$(dpkg --print-architecture)
 
@@ -52,8 +52,12 @@ tar -xf /tmp/knock.tar.gz -C /usr/local/ && rm /tmp/knock.tar.gz
 ln -s /usr/local/sbin/knockd /usr/sbin/knockd
 find /usr/lib -name 'libpcap.so.0.8' -execdir cp '{}' libpcap.so.1 \;
 
-PATH="$GITHUB_PATH/archive/master.zip" && [[ "$VERSION" != "MASTER" ]] && PATH="$GITHUB_PATH/archive/refs/tags/$VERSION.zip"  
-curl -fsSL -o /tmp/main.zip $PATH
+if [[ "${VERSION^^}" == "MASTER" ]]; then
+    curl -fsSL -o /tmp/main.zip "$GITHUB_PATH/archive/master.zip"
+else
+    curl -fsSL -o /tmp/main.zip "$GITHUB_PATH/archive/refs/tags/$VERSION.zip" 
+fi
+
 unzip /tmp/main.zip -d /tmp/main && rm /tmp/main.zip
 
 cp pterodactyl/entrypoint.sh /entrypoint.sh
