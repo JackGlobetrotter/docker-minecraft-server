@@ -62,8 +62,8 @@ unzip /tmp/main.zip -d /tmp/main && rm /tmp/main.zip
 
 cd /tmp/main/docker-minecraft-server-${VERSION,,}
 
-cp pterodactyl/entrypoint.sh /entrypoint.sh
-chmod 775 /entrypoint.sh
+cp pterodactyl/init.sh /init.sh
+chmod 775 /init.sh
 
 cd scripts
 
