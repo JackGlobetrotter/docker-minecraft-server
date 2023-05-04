@@ -1,16 +1,16 @@
 #! /bin/bash
 
 VERSION=2023.3.0
-GITHUB_PATH=
+GITHUB_PATH="https://github.com/itzg/docker-minecraft-server"
 
 TARGET=$(dpkg --print-architecture)
+
+mkdir -p /mnt/server
+cd /mnt/server
 
 set -euo pipefail
 
 apt-get update
-
-mkdir -p /mnt/server
-cd /mnt/server
 
 DEBIAN_FRONTEND=noninteractive \
 apt-get install -y \
@@ -52,7 +52,8 @@ tar -xf /tmp/knock.tar.gz -C /usr/local/ && rm /tmp/knock.tar.gz
 ln -s /usr/local/sbin/knockd /usr/sbin/knockd
 find /usr/lib -name 'libpcap.so.0.8' -execdir cp '{}' libpcap.so.1 \;
 
-curl -fsSL -o /tmp/main.zip https://github.com/itzg/docker-minecraft-server/archive/refs/tags/$VERSION.zip
+PATH="$GITHUB_PATH/archive/master.zip" && [[ "$VERSION" != "MASTER" ]] && PATH="$GITHUB_PATH/archive/refs/tags/$VERSION.zip"  
+curl -fsSL -o /tmp/main.zip $PATH
 unzip /tmp/main.zip -d /tmp/main && rm /tmp/main.zip
 
 cp pterodactyl/entrypoint.sh /entrypoint.sh
